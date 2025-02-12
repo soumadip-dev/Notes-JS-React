@@ -300,6 +300,44 @@ Since these operations don’t involve shifting, they are much faster.
 
 ---
 
+## Array Method: `flat()`
+
+The `Array.flat()` method in JavaScript is used to create a new array by flattening nested arrays up to a specified depth. It removes nesting and returns a single-level array based on the provided depth.
+
+#### Syntax:
+
+```JavaScript
+array.flat(depth);
+```
+
+- **`depth`** _(optional)_: The number of levels to flatten.
+    - Default value is `1`.
+    - If set to `Infinity`, it flattens all levels completely.
+
+#### Example:
+
+```JavaScript
+let arr = [1, [2, 3], [4, [5, 6]]];
+let flatArr = arr.flat();
+let flatArr2 = arr.flat(2);
+
+console.log(flatArr);  // [1, 2, 3, 4, [5, 6]]
+console.log(flatArr2); // [1, 2, 3, 4, 5, 6]
+```
+
+#### Flattening an Array Completely
+
+If the depth is unknown, we can use `Infinity` to flatten the array entirely:
+
+```JavaScript
+let arr = [1, [2, 3], [4, [5, [6]]]];
+let flatArr = arr.flat(Infinity);
+
+console.log(flatArr); // [1, 2, 3, 4, 5, 6]
+```
+
+---
+
 ## Array Methods: splice, slice, and concat
 
 ### splice
@@ -496,6 +534,51 @@ When the binary plus (`+`) operator is used with an array, JavaScript first conv
 - `[].toString()` → `""`, so `"" + 1` → `"1"`
 - `[1].toString()` → `"1"`, so `"1" + 1` → `"11"`
 - `[1, 2].toString()` → `"1,2"`, so `"1,2" + 1` → `"1,21"`
+
+---
+
+## Array Methods: `every()` and `some()`
+
+### `.every()`
+
+The `Array.every()` method in JavaScript is used to check whether **all** elements of an array satisfy a given condition. It returns `true` only if every element passes the test; otherwise, it returns `false`. If at least one element fails the condition, the result is `false`.
+
+#### Syntax:
+
+```JavaScript
+array.every((element, index, array) => {/*...*/});
+```
+
+#### Example:
+
+```JavaScript
+let oddNumbers = [1, 3, 5, 7, 9];
+let isOdd = oddNumbers.every(number => number % 2 !== 0);
+console.log(isOdd); // true
+```
+
+### `.some()`
+
+The `Array.some()` method in JavaScript is used to check whether **at least one** element in an array satisfies a given condition. It returns `true` if at least one element meets the condition; otherwise, it returns `false`.
+
+#### Syntax:
+
+```JavaScript
+array.some((element, index, array) => {/*...*/});
+```
+
+#### Example:
+
+```JavaScript
+let numbers = [1, 2, 3, 4, 5];
+let hasOdd = numbers.some(number => number % 2 !== 0);
+console.log(hasOdd); // true
+```
+
+### Key Differences:
+
+- **`every()`** checks if **all** elements pass the condition; if one fails, it returns `false`.
+- **`some()`** checks if **at least one** element passes the condition; if none do, it returns `false`.
 
 ---
 
@@ -832,5 +915,111 @@ console.log(max); // 6
 1. `reduce()` **does not modify the original array**.
 2. The **initial value** is crucial when dealing with **empty arrays** to prevent errors.
 3. It can be used for **various operations**, including **sum, multiplication, flattening arrays, grouping elements, and more**.
+
+---
+
+## Polyfills for `map()`, `filter()`, and `reduce()`
+
+### Polyfill for `map()`
+
+```js
+Array.prototype.myMap = function (cb) {
+    let temp = [];
+    for (let i = 0; i < this.length; i++) {
+        temp.push(cb(this[i], i, this));
+    }
+    return temp;
+};
+
+const arr = [1, 2, 3, 4];
+let output = arr.myMap(x => x * 2);
+console.log(output); // [2, 4, 6, 8]
+```
+
+### Polyfill for `filter()`
+
+```js
+Array.prototype.myFilter = function (cb) {
+    let temp = [];
+    for (let i = 0; i < this.length; i++) {
+        if (cb(this[i], i, this)) temp.push(this[i]);
+    }
+    return temp;
+};
+
+const arr = [1, 2, 3, 4];
+let output = arr.myFilter(x => x % 2 === 0);
+console.log(output); // [2, 4]
+```
+
+### Polyfill for `reduce()`
+
+```js
+Array.prototype.myReduce = function (cb, initialValue) {
+    let accumulator = initialValue;
+    for (let i = 0; i < this.length; i++) {
+        accumulator = accumulator !== undefined ? cb(accumulator, this[i], i, this) : this[i];
+    }
+    return accumulator;
+};
+
+const arr = [1, 2, 3, 4];
+let output = arr.myReduce((acc, curr) => acc + curr, 0);
+console.log(output); // 10
+```
+---
+
+## **Difference Between `map` and `forEach` in JavaScript**
+
+#### **1. Return Value**
+
+- `map` **returns a new array** with the modified values, whereas `forEach` **returns `undefined`**.
+    
+    ```javascript
+    const arr = [2, 3, 5, 4, 7];
+    
+    const mapResult = arr.map(ar => {
+      return ar * 2;
+    });
+    
+    const forEachResult = arr.forEach(ar => {
+      return ar * 2;
+    });
+    
+    console.log(mapResult); // Output: [ 4, 6, 10, 8, 14 ] (New array)
+    console.log(forEachResult); // Output: undefined
+    ```
+    
+
+#### **2. Modification of Original Array**
+
+- `map` does **not** modify the original array; instead, it creates a **new array**.
+    
+- `forEach`, on the other hand, **modifies the original array** when elements are reassigned.
+    
+    ```javascript
+    arr.forEach((ar, i) => {
+      arr[i] = ar + 3;
+    });
+    
+    console.log(arr); // Output: [ 5, 6, 8, 7, 10 ] (Original array modified)
+    ```
+    
+
+#### **3. Method Chaining**
+
+- `map` **returns an array**, allowing **method chaining** (e.g., `.filter()`, `.reduce()`, etc.).
+    
+- `forEach` does **not return an array**, so method chaining is **not possible**.
+    
+    ```javascript
+    const mapChaining = arr
+      .map(ar => {
+        return ar + 2;
+      })
+      .filter(x => x >= 6);
+    
+    console.log(mapChaining); // Output: New filtered array based on conditions
+    ```
 
 ---
