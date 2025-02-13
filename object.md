@@ -126,22 +126,50 @@ Object.defineProperty(object, "key", {
 });
 ```
 
-### Creating a Custom `Object.freeze()`
-You can create your own version of `Object.freeze()` using `Object.preventExtensions()` and `Object.defineProperty()`.
+---
 
-```javascript
-function customFreeze(obj) {
+## Polyfills for `Object.seal()` and `Object.freeze()`
+
+### **Polyfill for `seal()`**
+
+```js
+Object.customSeal = function (obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        throw new Error('Expected an Object');
+    }
+
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
         Object.defineProperty(obj, keys[i], {
-            configurable: false,
-            writable: false,
-        }); 
+            configurable: false // Prevent deleting properties
+        });
     }
-    Object.preventExtensions(obj); // Prevents adding new properties
-}
+
+    return Object.preventExtensions(obj); // Prevent adding new properties
+};
 ```
 
+### **Polyfill for `freeze()`**
+
+```js
+Object.customFreeze = function (obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        throw new Error('Expected an Object');
+    }
+
+    let keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+        Object.defineProperty(obj, keys[i], {
+            writable: false,     // Prevent modifying existing properties
+            configurable: false  // Prevent deleting properties
+        });
+    }
+
+    return Object.preventExtensions(obj); // Prevent adding new properties
+};
+```
+
+---
 
 ### `Object.assign()` in JavaScript
 
