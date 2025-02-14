@@ -5,7 +5,7 @@ JavaScript has four main pillars:
 1. **Scopes**
 2. **Coercion and Types**
 3. **Async Programming**
-4. **Objects and Classes**  
+4. **Objects and Classes**  ⭐
 
 ---
 
@@ -91,18 +91,20 @@ An **execution context** is an abstract concept that holds information about the
    - Values are assigned to variables, and functions are executed.
 
 ---
+---
+---
 
-#### Scopes in JavaScript
+## Scopes in JavaScript
 
 Scopes determine where variables or functions are organized and accessible in the code. JavaScript's scoping mechanism is different from other languages like Java, C++, and Python, so avoid mixing these concepts.
 
-##### Types of Scope in JavaScript
+### Types of Scope in JavaScript
 
 1. **Global Scope**
 2. **Function Scope**
 3. **Block Scope**
 
-##### 1. Global Scope
+### 1. Global Scope
 
 Variables declared outside any function or block are in the global scope. These variables are accessible from anywhere in your code, whether inside a function, loop, or conditional statement.
 
@@ -121,7 +123,7 @@ console.log(x); // Accessible here too
 
 In the above code, `x` is declared in the global scope, so it can be accessed both inside and outside the `showX` function.
 
-##### 2. Function Scope
+### 2. Function Scope
 
 When a variable is declared inside a function, it is scoped to that function, meaning it can only be accessed within that function.
 
@@ -139,7 +141,7 @@ console.log(y); // Error: y is not defined
 
 Here, `y` is declared inside the `showY` function, so it is only accessible within that function and not outside.
 
-##### 3. Block Scope
+### 3. Block Scope
 
 Block scope is created when variables are declared inside a pair of curly braces `{}`. This can happen within loops, conditionals, or just standalone blocks.
 
@@ -157,16 +159,16 @@ In this example, `z` is declared inside an `if` block, so it is only accessible 
 
 ---
 
-#### Variable Declarations and Scope
+## Variable Declarations and Scope
 
 In JavaScript, variables can be declared using `var`, `let`, or `const`. The way a variable is declared affects its scope.
 
-##### Any variable is used only in two ways:
+### Any variable is used only in two ways:
 
 - **RHS (Right-Hand Side):** When we consume the variable.
 - **LHS (Left-Hand Side):** When we assign a value or declare the variable.
 
-##### Lexical Scoping / Lexical Parsing:
+### Lexical Scoping / Lexical Parsing
 JavaScript uses lexical scoping, also known as static scoping. In lexical scoping, the scope of variables is determined during compile time. Although variable values are assigned during the execution phase, the scope of each variable is defined during the compilation phase. Therefore, the rules for accessing variables are based on the location where functions and blocks are written in the code.
 
 | **Scope Chaining**:
@@ -191,11 +193,14 @@ In the above code, `innerFunction` can access `outerVar` because it is lexically
 
 In summary, **scope chaining** allows JavaScript to search through the chain of scopes to find variables, starting from the innermost scope and moving outward. This behavior is a fundamental aspect of lexical scoping..
 
+---
 
-##### **`var`:**
+## `var`, `let`, and `const`
+
+### `var`
 Variables declared with `var` are either function-scoped or globally scoped. `var` does not support block scope.
 
-Example:
+**Example**:
 ```javascript
 function showVar() {
     if (true) {
@@ -272,11 +277,10 @@ Automatic global variables can cause issues in JavaScript. To prevent this, you 
 "use strict";
 ```
 
-
-##### `let` and **`const`**: 
+### `let` and **`const`**: 
 These keywords support block scope, meaning variables declared inside a block are only accessible within that block.
   
-  Example:
+  **Example**:
   ```javascript
   function showLetConst() {
       if (true) {
@@ -290,7 +294,7 @@ These keywords support block scope, meaning variables declared inside a block ar
   showLetConst();
   ```
 
-###### Special Characteristics of `let` and `const`
+#### Special Characteristics of `let` and `const`
 
 - **Block Scope Inside Functions**: Variables declared with `let` or `const` are not hoisted in the same way as `var`. They are only accessible after their declaration, which differs from the function scope provided by `var`. This difference leads to the concept of the **Temporal Dead Zone (TDZ)**.
 
@@ -315,6 +319,45 @@ These keywords support block scope, meaning variables declared inside a block ar
   let d = 70;
   let d = 80; // Error: Identifier 'd' has already been declared
   ```
+
+---
+
+### Variable Shadowing & Illegal Shadowing
+#### Variable Shadowing
+
+Variable shadowing happens when a variable in an inner scope (inside `{}`) has the same name as a variable in an outer scope. The inner variable "shadows" the outer one within its block.
+
+**Example**:
+
+```JavaScript
+function test() {
+  let a = 'Hello';
+  if (true) {
+    let a = 'Hi'; // This 'a' is a new variable, only inside this block
+    console.log(a); // Prints 'Hi'
+  }
+  console.log(a); // Prints 'Hello' (outer variable remains unchanged)
+}
+test();
+```
+
+#### **Illegal Shadowing**
+
+Illegal shadowing happens when we try to shadow a `let` variable using `var`, which JavaScript does not allow. The reason is that `var` is function-scoped, while `let` is block-scoped. If `var` is declared inside a block, it "escapes" the block due to its function scope, causing a conflict with the existing `let` variable.
+
+```Javascript
+function test() {
+  let a = 'Hello';
+  if (true) {
+    var a = 'Hi'; // ❌ Not allowed! 'var' cannot shadow 'let'
+    console.log(a);
+  }
+  console.log(a);
+}
+test(); 
+```
+
+🔴 **Error:** `SyntaxError: Identifier 'a' has already been declared`
 
 ---
 ### Hoisting
@@ -356,4 +399,3 @@ If a function expression is created using `const` or `let`, the function itself 
 
 ---
 ---
-
