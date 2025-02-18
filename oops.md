@@ -1,4 +1,4 @@
-### What is OOP?
+## What is OOP?
 Object-Oriented Programming (OOP) is a paradigm that uses objects to model real-world entities. The core pillars of OOP are:
 
 - **Encapsulation**: Bundles data and methods that operate on the data within a single unit (class).
@@ -8,13 +8,13 @@ Object-Oriented Programming (OOP) is a paradigm that uses objects to model real-
 
 ---
 
-### OOP in JavaScript
+## OOP in JavaScript
 JavaScript supports OOP principles, allowing for the creation of classes, objects, and prototypes. There are three main ways to implement OOP in JavaScript:
 
   - **Constructor Functions and Prototypes**: A pre-ES6 method of creating objects and inheritance using functions and the `prototype` property.
   - **ES6 Classes**: Modern JavaScript syntax to define classes, which internally use constructor functions and prototypes.
 
-#### Classes
+### Classes
 Classes serve as blueprints for real-life entities, defining their structure and behavior. When we talk about how entities "look," we're referring to their properties. When we discuss how they "behave," we mean the actions or methods that can be performed on them.
 
 **Note:** 
@@ -27,7 +27,7 @@ class NameOfTheClass {
 }
 ```
 
-#### Objects
+### Objects
 Objects are instances of classes and are created using the `new` keyword in JavaScript. This process is distinct from other languages.
 
 ```javascript
@@ -38,7 +38,7 @@ let iphone = new Product();
 
 ---
 
-### Constructor
+## Constructor
 Every class in JavaScript includes a special method called a constructor. This method is automatically called when an object of the class is created. The constructor's default version is known as the default constructor, but you can provide your custom implementation.
 
 ```javascript
@@ -51,7 +51,7 @@ class Product {
 
 ---
 
-### How `new` Works
+## How `new` Works
 When you use `new`, it follows a four-step process:
 
 1. Creates a new, empty object.
@@ -61,7 +61,7 @@ When you use `new`, it follows a four-step process:
 
 ---
 
-### The `this` Keyword in JavaScript
+## The `this` Keyword in JavaScript
 In most cases, `this` refers to the context in which it was called, known as the "call site." The call site can be an object, a position in the code, or the `new` keyword. However, there is an exception when using arrow functions. In arrow functions, `this` is lexically bound, meaning it refers to the scope in which the arrow function was defined, not the call site.
 
 ```javascript
@@ -105,11 +105,12 @@ In the above code, when `ram.calcAge()` is called, `this` refers to the `ram` ob
 
 ---
 
-#### `call`, `apply`, and `bind` Methods
+## `call`, `apply`, and `bind` Methods
 
 In JavaScript, `call`, `apply`, and `bind` are three very useful methods that allow you to control the value of the `this` keyword within a function.
 
-- **`call`**: The `call` method allows you to explicitly set the value of `this` inside a function. It invokes the function with a specific `this` context and passes arguments individually.
+### `call`: 
+The `call` method allows you to explicitly set the value of `this` inside a function. It invokes the function with a specific `this` context and passes arguments individually.
 
 ```javascript
 const myObj = {
@@ -129,7 +130,8 @@ myObj.greet.call(newObj, "Welcome", "Vrindavan");
 
 The `call` method allows us to pass the first argument as the new `this` context. If no object is passed, `this` refers to the global object. You can pass function parameters after the `this` reference.
 
-- **`apply`**: The `apply` method is similar to `call`, but it takes two arguments:
+### `apply`: 
+The `apply` method is similar to `call`, but it takes two arguments:
     1. The object to which `this` will refer.
     2. An array of parameters to be passed to the function.
 
@@ -139,7 +141,8 @@ myObj.greet.apply(newObj, ["Welcome", "Vrindavan"]);
 // Output: God Krishna Welcome to Vrindavan
 ```
 
-- **`bind`**: The `bind` method is similar to `call`, but it does not invoke the function immediately. Instead, it creates a new function with `this` permanently bound to the specified value, allowing you to call this new function later.
+### `bind`: 
+The `bind` method is similar to `call`, but it does not invoke the function immediately. Instead, it creates a new function with `this` permanently bound to the specified value, allowing you to call this new function later.
 
 ```javascript
 // Create a new function with `this` bound to newObj 
@@ -178,7 +181,7 @@ button.addEventListener('click', function() {
 
 ---
 
-### What Is Prototype in JavaScript?
+## What Is Prototype in JavaScript?
 
 In JavaScript, when your code runs, the language sets up a built-in capital **`Object`** function in memory. Along with this function, an important unnamed object is created. This unnamed object isn't empty and contains essential JavaScript methods such as `toString()`, `isPrototypeOf()`, and `valueOf()`. We can access this unnamed object through **`Object.prototype`**.
 
@@ -236,7 +239,7 @@ Finally, JavaScript links the class or function's prototype to **`Object.prototy
 
 ---
 
-### Prototype Chain
+## Prototype Chain
 
 JavaScript links the class or function's prototype to **`Object.prototype`**.
 
@@ -274,7 +277,7 @@ console.log(e2.toString()); // Access method from Object.prototype
 
 ---
 
-### `__proto__` Property
+## `__proto__` Property
 
 In JavaScript, every object has an internal property called **`[[Prototype]]`**, which can be accessed using the **`__proto__`** property. The **`__proto__`** property refers to the object's prototype, allowing it to inherit properties and methods from its prototype chain. This chain links the object to its class's prototype and eventually to **`Object.prototype`**.
 
@@ -287,7 +290,7 @@ console.log(p.__proto__.__proto__); // Outputs Object.prototype
 In this example, `p.__proto__` points to `Product.prototype`, and `p.__proto__.__proto__` points to `Object.prototype`. This property is also called `dunder proto`.
 
 ---
-### `Object.create()`
+## `Object.create()`
 
 In JavaScript, the `Object.create()` method is used to create a new object with a specified prototype and optional properties. This is especially useful for setting up inheritance between objects.
 
@@ -313,7 +316,7 @@ In this example, `rohit` inherits methods from `personProto`, allowing it to cal
 
 ---
 
-### `Static` Keyword in JavaScript
+## `Static` Keyword in JavaScript
 The `static` keyword in JavaScript is used to define methods or properties on a class that belong to the class itself, rather than instances of the class.
 
 A common use case of the `static` keyword is in the builder design pattern, where it is used to implement a builder getter function.
@@ -347,11 +350,11 @@ const product1 = new Product("Laptop", 1500);
 
 ---
 
-### Encapsulation and Data Security in JavaScript Classes
+## Encapsulation and Data Security in JavaScript Classes
 
 In JavaScript, classes do not inherently protect data members from being accessed or modified outside of the class, which can violate the principle of encapsulation in Object-Oriented Programming (OOP).
 
-#### Protected Fields
+### Protected Fields
 
 While JavaScript doesn’t provide true `protected` fields, a common convention is to prefix a field with an underscore (`_`) to indicate that it should be treated as "protected." Although this convention doesn’t enforce actual protection, it serves as a visual reminder for developers to avoid accessing or modifying these fields outside the class or its subclasses.
 
@@ -370,7 +373,7 @@ const item = new Product();
 item._name = "Book"; // Still accessible outside the class, no true protection
 ```
 
-#### Private Fields
+### Private Fields
 
 To achieve genuine encapsulation and restrict access to within the class, JavaScript provides private fields. Private fields begin with a `#`, restricting access exclusively to the class itself, thereby ensuring true encapsulation.
 
@@ -393,7 +396,7 @@ By using private fields with the `#` prefix, JavaScript enforces data security a
 
 ---
 
-### `Getter` and `Setter` Methods
+## `Getter` and `Setter` Methods
 To manage access to these private members, getter and setter methods can be defined. These methods allow controlled read and write access, enabling validation and ensuring the integrity of the data.
 
 ```javascript
@@ -446,7 +449,7 @@ console.log(iphone.description); // Getter --> Prints "Something"
 
 ---
 
-### Prototype Inheritance with Constructor Functions
+## Prototype Inheritance with Constructor Functions
 
 Prototype inheritance allows us to create a chain between parent and child classes by linking their prototypes. When using constructor functions, we can achieve this linkage in two ways:
 
@@ -462,7 +465,6 @@ Prototype inheritance allows us to create a chain between parent and child class
 The main difference between these two methods is observed when accessing `child.prototype.constructor`. In the first method, it correctly refers to the child constructor function, while in the second method, it initially points to the parent constructor, and we need to manually set it back to the child.
 
 In ES6 classes, the `super` keyword is used to call the parent class’s constructor. However, in constructor functions, we can achieve a similar result by using `call()` to explicitly invoke the parent constructor within the child constructor.
-
 #### Example
 
 Here’s an example demonstrating prototype inheritance between a parent `Event` constructor and a child `MovieEvent` constructor:
@@ -509,7 +511,7 @@ In this example, `MovieEvent` inherits from `Event`, allowing instances of `Movi
 
 ---
 
-### Prototype Inheritance with ES6 Classes
+## Prototype Inheritance with ES6 Classes
 
 In JavaScript, prototype inheritance is a method by which objects inherit properties and methods from other objects. Here are the key points:
 Objects can inherit from other objects through a prototype chain. For example, a child object can inherit properties from a parent object via the prototype.
@@ -566,7 +568,7 @@ In this example:
 
 ---
 
-### Builder Design Pattern
+## Builder Design Pattern
 Consider a class like this:
 
 ```javascript
@@ -692,7 +694,7 @@ class Product {
 }
 ```
 
-### To use the Builder pattern with method chaining:
+## To use the Builder pattern with method chaining:
 
 ```javascript
 const p = Product.Builder.setName("iPhone 11")
@@ -704,7 +706,7 @@ const p = Product.Builder.setName("iPhone 11")
 
 ---
 
-### How JavaScript OOP Differs from Languages like Java and C++
+## How JavaScript OOP Differs from Languages like Java and C++
 
 In languages like Java and C++, creating an object from a class means that any changes made to the class after the object is created do not affect the existing object. However, in JavaScript, modifying the prototype after object creation will reflect those changes in the already created object.
 
