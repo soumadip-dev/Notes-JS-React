@@ -234,8 +234,7 @@ console.log("2nd Output:", Product.prototype.constructor);
 
 Finally, JavaScript links the class or function's prototype to **`Object.prototype`**.
 
-![Prototype Image](/Images/prototype.png)
-
+![[prototype.png]]
 
 ---
 
@@ -506,7 +505,7 @@ console.log(movie.getDetails());
 
 In this example, `MovieEvent` inherits from `Event`, allowing instances of `MovieEvent` to access methods defined on `Event.prototype`, such as `getDetails()`.
 
-![Inheritance Constructor Function](/Images/Inheritance_Constructor_function.png)
+![[Inheritance_Constructor_function.png]]
 
 
 ---
@@ -564,7 +563,6 @@ In this example:
 - The `super()` keyword is used to call the parent class's constructor and initialize the type property.
 
 ![[Inheritance_ES6_class.png]]
-![Inheritance ES6 Class](/Images/Inheritance_ES6_class.png)
 
 ---
 
