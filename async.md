@@ -71,36 +71,6 @@ console.log(radius.map(area)); // [3.141592653589793, 12.566370614359172]
 
 ---
 
-### Data Transformation with `map()`, `filter()`, and `reduce()`
-
-JavaScript provides powerful array methods for transforming and processing data, with three key methods being `map()`, `filter()`, and `reduce()`. These methods enable efficient and readable manipulation of arrays.
-
-### Example Array:
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-```
-
-### 1. **`map()`**: 
-Applies a given function to each element of an array, returning a new array with the transformed values.
-```javascript
-const doubled = numbers.map(n => n * 2); // [2, 4, 6, 8, 10]
-```
-
-### 2. **`filter()`**: 
-Creates a new array containing only the elements that satisfy the provided condition.
-```javascript
-const greaterThanTwo = numbers.filter(n => n > 2); // [3, 4, 5]
-```
-
-### 3. **`reduce()`**: 
-Executes a reducer function (that you provide) on each element of the array, resulting in a single output value. Here, `acc` is the accumulator and `r` is the current value. `r` represents each value in the array, and `acc` represents the final result. The second argument of the `reduce` function is the initial value of `acc`.
-
-```javascript
-const sum = numbers.reduce((acc, n) => acc + n, 0); // 15
-```
-
----
-
 ### Problem with Callbacks
 
 While callbacks are powerful and allow us to write modular, reusable code, they can sometimes lead to issues when used extensively. There are two main problems with callbacks:
@@ -123,31 +93,6 @@ While callbacks are powerful and allow us to write modular, reusable code, they 
        });
    });
    ```
-
----
-
-### Closures
-
-A `closure` provides access to the variables of its parent function even after that parent function has returned. The function keeps a reference to its outer scope, preserving the scope chain over time. This means that the variable environment of the execution context in which the function was created remains accessible even after that execution context has finished.
-
-**Example**:
-```javascript
-const secureBooking = function() {
-    let passengerCount = 0;
-    return function() {
-        passengerCount++;
-        console.log(`${passengerCount} passengers`);
-    };
-};
-
-const booker = secureBooking();
-
-booker(); // 1 passengers
-booker(); // 2 passengers
-booker(); // 3 passengers
-```
-
-This example demonstrates how the inner function retains access to `passengerCount`, even after `secureBooking` has completed its execution.
 
 ---
 
@@ -378,6 +323,48 @@ In this code, we can observe the following sequence of events:
 
 ---
 
+### What is Promise Starvation in JavaScript?
+
+**Promise Starvation in JavaScript** occurs when continuously scheduled **microtasks** (such as resolved Promises) prevent **macrotasks** (like `setTimeout`, I/O operations, etc.) from executing. This happens because JavaScript’s **event loop** gives priority to the **microtask queue**, executing all microtasks before processing any macrotasks.
+
+#### **Example of Promise Starvation**
+
+```javascript
+console.log('Start');
+
+setTimeout(() => {
+  console.log('Hello after 0s');
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('1. Promise Resolved');
+
+  Promise.resolve().then(() => {
+    console.log('2. Promise Resolved');
+
+    Promise.resolve().then(() => {
+      console.log('3. Promise Resolved');
+
+      Promise.resolve().then(() => {
+        console.log('4. Promise Resolved');
+      });
+    });
+  });
+});
+
+console.log('End');
+```
+
+#### **Execution Breakdown**
+
+1. **Synchronous Code Executes First:**
+    - Logs: `Start`, `End`.
+2. **Microtasks Execute Next:**
+    - Logs: `1. Promise Resolved` → `2. Promise Resolved` → `3. Promise Resolved` → `4. Promise Resolved`.
+3. **Macrotask (setTimeout) Runs Last:**
+    - Logs: `Hello after 0s`.
+
+---
 ### More on the `.then()` Function
 
 - **Behaviour of `.then()` Function:**  
@@ -700,13 +687,16 @@ console.log(it.next(20));     // Step 2
 
 ---
 
-### What is `async`? and What is `await`?
+### What is `async` and `await`?
 
-#### `async`: 
-The keyword **`async`** is used to define an **`async function`**. When a function is declared as `async`, it automatically returns a **Promise**. If the function returns a value that is not a promise, JavaScript will wrap it in a resolved promise. This makes it easier to write asynchronous code, as it allows you to work with promises in a more readable way.
+#### `async`:
+The **`async`** keyword is used to define an **async function**. When a function is declared as `async`, it automatically returns a **Promise**. If the function returns a value, object, or anything other than a promise, JavaScript wraps it in a resolved promise. This simplifies writing asynchronous code, as it allows you to work with promises in a more readable way.
 
 #### `await`:
-The **`await`** keyword is used to pause the execution of an **`async`** function until a promise is resolved or rejected. It can only be used inside an **`async`** function. When used, it ensures that the next line of code does not run until the awaited promise settles.
+The **`await`** keyword is used inside an `async` function to handle asynchronous operations. When `await` is encountered, JavaScript temporarily exits the function and continues executing other tasks in the event loop. Once the promise is settled (resolved or rejected), the function resumes from where it paused, using the promise's resolved value (or handling the rejection).
+
+This mechanism is similar to using `.then()` with promises but provides a cleaner, more readable syntax. Behind the scenes, `await` functions like a combination of `yield` and `.next()` in generators, effectively pausing execution until the promise is settled.
+
 
 #### Example:
 ```javascript
@@ -726,15 +716,6 @@ handlePromise();
 // Output (after 1s):
 // Data from API
 ```
-
----
-
-### How `async` and `await` Work Behind the Scenes 
-
-
-When using the `async` keyword, a function automatically returns a promise. Inside an `async` function, the `await` keyword allows JavaScript to handle asynchronous operations in a structured way. At the point where `await` is used, JavaScript returns from the function and continues executing other tasks in the event loop. Once the awaited promise resolves, the function resumes execution from that point with the resolved value.
-
-Behind the scenes, `await` works like a generator’s `yield`. It pauses the function at that point, and when the promise resolves, it continues running the function with the promise’s result. This is similar to using `.then()` with promises, but `async/await` makes the code easier to read and write.
 
 ---
 
